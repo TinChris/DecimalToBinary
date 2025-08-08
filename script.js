@@ -1,14 +1,17 @@
-const numberInput = document.getElementById("number-input");
-const convertBtn = document.getElementById("convert-btn");
-const result = document.getElementById("result");
-const animationContainer = document.getElementById("animation-container");
+// DOM-Elemente referenzieren
+const numberInput = document.getElementById("number-input"); // Eingabefeld für die Dezimalzahl
+const convertBtn = document.getElementById("convert-btn"); // Button zum Konvertieren
+const result = document.getElementById("result"); // Element, in dem das Ergebnis angezeigt wird
+const animationContainer = document.getElementById("animation-container"); // Container für die Call-Stack-Animation
+
+// Vordefinierte Schritte für die Animation bei Eingabe der Zahl 5
 const animationData = [
   {
     inputVal: 5,
-    addElDelay: 1000,
+    addElDelay: 1000, // Verzögerung bis zum Hinzufügen
     msg: 'decimalToBinary(5) returns "10" + 1 (5 % 2). Then it pops off the stack.',
-    showMsgDelay: 15000,
-    removeElDelay: 20000,
+    showMsgDelay: 15000, // Verzögerung bis zur Anzeige der Nachricht
+    removeElDelay: 20000, // Verzögerung bis zum Entfernen
   },
   {
     inputVal: 2,
@@ -26,61 +29,22 @@ const animationData = [
   }
 ];
 
+// Rekursive Funktion zur Umwandlung von Dezimal- in Binärzahlen
 const decimalToBinary = (input) => {
   if (input === 0 || input === 1) {
-    return String(input);
+    return String(input); // Basisfall: 0 oder 1 wird als String zurückgegeben
   } else {
+    // Rekursiver Aufruf: Ganzzahldivision durch 2 und Modulo 2 angehängt
     return decimalToBinary(Math.floor(input / 2)) + (input % 2);
   }
 };
 
+// Funktion zur Darstellung der Call-Stack-Animation (nur bei Eingabe 5)
 const showAnimation = () => {
-  result.innerText = "Call Stack Animation";
+  result.innerText = "Call Stack Animation"; // Überschrift setzen
 
   animationData.forEach((obj) => {
+    // Schritt 1: Funktion aufrufen und anzeigen
     setTimeout(() => {
       animationContainer.innerHTML += `
-        <p id="${obj.inputVal}" class="animation-frame">
-          decimalToBinary(${obj.inputVal})
-        </p>
-      `;
-    }, obj.addElDelay);
-
-    setTimeout(() => {
-      document.getElementById(obj.inputVal).textContent = obj.msg;
-    }, obj.showMsgDelay);
-
-    setTimeout(() => {
-      document.getElementById(obj.inputVal).remove();
-    }, obj.removeElDelay);
-  });
-
-  setTimeout(() => {
-result.textContent = decimalToBinary(5);
-  }, 20000);
-};
-
-const checkUserInput = () => {
-  const inputInt = parseInt(numberInput.value);
-
-  if (!numberInput.value || isNaN(inputInt) || inputInt < 0) {
-    alert("Please provide a decimal number greater than or equal to 0");
-    return;
-  }
-
-  if (inputInt === 5) {
-    showAnimation();
-    return;
-  }
-
-  result.textContent = decimalToBinary(inputInt);
-  numberInput.value = "";
-};
-
-convertBtn.addEventListener("click", checkUserInput);
-
-numberInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    checkUserInput();
-  }
-});
+        <p id="${obj
